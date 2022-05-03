@@ -308,17 +308,81 @@ keyboard2 = {
 keyboard2 = json.dumps(keyboard2, ensure_ascii=False).encode('utf-8')
 keyboard2 = str(keyboard2.decode('utf-8'))
 
+keyboard3 = {
+    "one_time": True,
+    "buttons": [
+        [
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "меньше часа"
+                },
+                "color": "primary"
+            },
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "60-90 минут"
+                },
+                "color": "primary"
+            },
+        ],  #
+        [
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "91-150 минут"
+                },
+                "color": "primary"
+            },
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "151-300 минут"
+                },
+                "color": "primary"
+            },
+        ],  #
+        [
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "более 5 часов"
+                },
+                "color": "primary"
+            },
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "Не имеет значения"
+                },
+                "color": "primary"
+            },
+        ]
+        ]
+}
+keyboard3 = json.dumps(keyboard3, ensure_ascii=False).encode('utf-8')
+keyboard3 = str(keyboard3.decode('utf-8'))
 
 longpoll = VkBotLongPoll(vk, 211179909)
 
 genres = [str(i) for i in range(0, 25)]
 years = {'1900-1950': '1', '1951-1970': '2', '1971-1980': '3', '1981-1990': '4',
          '1991-2000': '5', '2001-2006': '6', '2007-2015': '7', 'Не имеет значения': '0'}
+durs = {'меньше часа': '1', '60-90 минут': '2', '91-150 минут': '3',
+        '151-300 минут': '4', 'более 5 часов': '5', 'Не имеет значения': '0'}
 
 
 def main():
     g = True
     y = False
+    d = False
     while True:
         messages = vk.method("messages.getConversations", {"offset": 0, "count": 20, "filter": "unanswered"})
         if messages["count"] >= 1:
@@ -347,7 +411,7 @@ def main():
                 year = int(years[body])
                 if films_year(genre, year)[0]:
                     vk.method("messages.send",
-                              {"peer_id": id, "message": "длительность?", #'keyboard': keyboard2,
+                              {"peer_id": id, "message": "длительность?", 'keyboard': keyboard3,
                                "random_id": random.randint(1, 2147483647)}, )
                     d = True
                     y = False
@@ -359,7 +423,16 @@ def main():
                               {"peer_id": id, "message": f"Finish",
                                "random_id": random.randint(1, 2147483647)}, )
                     break
-
+            elif body in durs.keys() and d:
+                duration = int(durs[body])
+                print(films_duration(genre, year, duration))
+                vk.method("messages.send",
+                            {"peer_id": id, "message": f"{films_duration(genre, year, duration)}",
+                            "random_id": random.randint(1, 2147483647)}, )
+                vk.method("messages.send",
+                            {"peer_id": id, "message": f"Finish",
+                           "random_id": random.randint(1, 2147483647)}, )
+                break
             else:
                 vk.method("messages.send",
                           {"peer_id": id, "message": "пожалуйста, укажите один из вариатов",   'keyboard': keyboard,

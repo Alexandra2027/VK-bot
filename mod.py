@@ -70,14 +70,20 @@ def films_duration(genre, date, duration):
         result2 = cur.execute("""SELECT * FROM films
                           WHERE year >= ? AND year <= ? AND genre = ? AND duration >= ? AND duration <= ?""",
                               (year1, year2, genre, duration1, duration2)).fetchall()
-        result2 = [result2[j][1] for j in range(len(result2))]
+        result2 = [str(result2[i][1]) + ' ' + str(result2[i][2]) for i in range(len(result2))]
         if not bool(result2):
             return 'Таких фильмов нет'
         elif len(result2) >= 3:
             film = random.sample(result2, 3)
-            return film
+            a = ''
+            for j in range(len(film)):
+                a += film[j] + '\n'
+            return a
         else:
-            return result2
+            a = ''
+            for j in range(len(result2)):
+                a += result2[j] + '\n'
+            return a
     else:
         years = cur.execute("""SELECT * FROM years
                     WHERE id = ?""", (date,)).fetchone()
@@ -90,11 +96,17 @@ def films_duration(genre, date, duration):
         result2 = cur.execute("""SELECT * FROM films
                           WHERE year >= ? AND year <= ? AND duration >= ? AND duration <= ?""",
                               (year1, year2, duration1, duration2)).fetchall()
-        result2 = [result2[j][1] for j in range(len(result2))]
+        result2 = [str(result2[i][1]) + ' ' + str(result2[i][2]) for i in range(len(result2))]
         if not bool(result2):
             return 'Таких фильмов нет'
         elif len(result2) >= 3:
             film = random.sample(result2, 3)
-            return film
+            a = ''
+            for j in range(len(film)):
+                a += film[j] + '\n'
+            return a
         else:
-            return result2
+            a = ''
+            for j in range(len(result2)):
+                a += result2[j] + '\n'
+            return a
