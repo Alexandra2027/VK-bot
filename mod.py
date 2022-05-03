@@ -9,17 +9,22 @@ def films_genre(genre):
     if genre != 0:
         result1 = cur.execute("""SELECT * FROM films
                    WHERE genre = ?""", (genre,)).fetchall()
-        result = [result1[i][1] for i in range(len(result1))]
-        print(result)
+        result = [str(result1[i][1]) + ' ' + str(result1[i][2]) for i in range(len(result1))]
         if not bool(result1):
             return (False, 'Таких фильмов нет')
-        elif len(result1) >= 3 and len(result1) < 20:
-            film = random.sample(result1, 3)
-            return (False, film)
+        elif len(result) >= 3 and len(result) < 20:
+            film = random.sample(result, 3)
+            a = ''
+            for j in range(len(film)):
+                a += film[j] + '\n'
+            return (False, a)
         elif len(result1) >= 20:
             return (True, None)
         else:
-            return (False, result1)
+            a = ''
+            for j in range(len(result)):
+                a += result[j] + '\n'
+            return (False, a)
     else:
         return (True, None)
 
