@@ -41,7 +41,7 @@ keyboard = {
                 "action": {
                     "type": "text",
                     "payload": "{\"button\": \"2\"}",
-                    "label": "5"
+                    "label": "4"
                 },
                 "color": "primary"
             },
@@ -228,14 +228,15 @@ keyboard = {
 keyboard = json.dumps(keyboard, ensure_ascii=False).encode('utf-8')
 keyboard = str(keyboard.decode('utf-8'))
 
-keyboard2 = {"one_time": True,
+keyboard2 = {
+    "one_time": True,
     "buttons": [
         [
             {
                 "action": {
                     "type": "text",
                     "payload": "{\"button\": \"2\"}",
-                    "label": "1900-"
+                    "label": "1900-1950"
                 },
                 "color": "primary"
             },
@@ -243,7 +244,17 @@ keyboard2 = {"one_time": True,
                 "action": {
                     "type": "text",
                     "payload": "{\"button\": \"2\"}",
-                    "label": "2"
+                    "label": "1951-1970"
+                },
+                "color": "primary"
+            },
+        ],  #
+        [
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "1971-1980"
                 },
                 "color": "primary"
             },
@@ -251,7 +262,17 @@ keyboard2 = {"one_time": True,
                 "action": {
                     "type": "text",
                     "payload": "{\"button\": \"2\"}",
-                    "label": "3"
+                    "label": "1981-1990"
+                },
+                "color": "primary"
+            },
+        ],  #
+        [
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "1991-2000"
                 },
                 "color": "primary"
             },
@@ -259,7 +280,17 @@ keyboard2 = {"one_time": True,
                 "action": {
                     "type": "text",
                     "payload": "{\"button\": \"2\"}",
-                    "label": "5"
+                    "label": "2001-2006"
+                },
+                "color": "primary"
+            },
+        ],  #
+        [
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "2007-2015"
                 },
                 "color": "primary"
             },
@@ -267,22 +298,27 @@ keyboard2 = {"one_time": True,
                 "action": {
                     "type": "text",
                     "payload": "{\"button\": \"2\"}",
-                    "label": "5"
+                    "label": "Не имеет значения"
                 },
                 "color": "primary"
             },
         ]
-        ]}
-keyboard = json.dumps(keyboard, ensure_ascii=False).encode('utf-8')
-keyboard = str(keyboard.decode('utf-8'))
+        ]
+}
+keyboard2 = json.dumps(keyboard2, ensure_ascii=False).encode('utf-8')
+keyboard2 = str(keyboard2.decode('utf-8'))
 
 
 longpoll = VkBotLongPoll(vk, 211179909)
 
 genres = [str(i) for i in range(0, 25)]
+years = {'1900-1950': '1', '1951-1970': '2', '1971-1980': '3', '1981-1990': '4',
+         '1991-2000': '5', '2001-2006': '6', '2007-2015': '7', 'Не имеет значения': '0'}
+
 
 def main():
     g = True
+    y = False
     while True:
         messages = vk.method("messages.getConversations", {"offset": 0, "count": 20, "filter": "unanswered"})
         if messages["count"] >= 1:
@@ -296,8 +332,9 @@ def main():
                 genre = int(body)
                 if films_genre(genre)[0]:
                     vk.method("messages.send",
-                              {"peer_id": id, "message": "А какой временой преиод?", #'keyboard': keyboard,
-                               "random_id": random.randint(1, 2147483647)}, )
+                              {"peer_id": id, "message": "А какой временой преиод?", 'keyboard': keyboard2,
+                               "random_id": random.randint(1, 2147483647)},)
+                    y = True
                 else:
                     vk.method("messages.send",
                               {"peer_id": id, "message": f"{films_genre(genre)[1]}",
@@ -306,6 +343,23 @@ def main():
                               {"peer_id": id, "message": f"Finish",
                                "random_id": random.randint(1, 2147483647)},)
                     break
+            elif body in years.keys() and y:
+                year = int(years[body])
+                if films_year(genre, year)[0]:
+                    vk.method("messages.send",
+                              {"peer_id": id, "message": "длительность?", #'keyboard': keyboard2,
+                               "random_id": random.randint(1, 2147483647)}, )
+                    d = True
+                    y = False
+                else:
+                    vk.method("messages.send",
+                              {"peer_id": id, "message": f"{films_year(genre, year)[1]}",
+                               "random_id": random.randint(1, 2147483647)}, )
+                    vk.method("messages.send",
+                              {"peer_id": id, "message": f"Finish",
+                               "random_id": random.randint(1, 2147483647)}, )
+                    break
+
             else:
                 vk.method("messages.send",
                           {"peer_id": id, "message": "пожалуйста, укажите один из вариатов",   'keyboard': keyboard,

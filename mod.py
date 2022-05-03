@@ -37,16 +37,22 @@ def films_year(genre, date):
         year2 = years[2]
         result2 = cur.execute("""SELECT * FROM films
                           WHERE year >= ? AND year <= ? AND genre = ?""", (year1, year2, genre)).fetchall()
-        result2 = [result2[j][1] for j in range(len(result2))]
+        result2 = [str(result2[i][1]) + ' ' + str(result2[i][2]) for i in range(len(result2))]
         if not bool(result2):
             return (False, 'Таких фильмов нет')
         elif len(result2) >= 3 and len(result2) < 20:
             film = random.sample(result2, 3)
-            return (False, film)
+            a = ''
+            for j in range(len(film)):
+                a += film[j] + '\n'
+            return (False, a)
         elif len(result2) >= 20:
             return (True, None)
         else:
-            return (False, result2)
+            a = ''
+            for j in range(len(result2)):
+                a += result2[j] + '\n'
+            return (False, a)
     else:
         return (True, None)
 
