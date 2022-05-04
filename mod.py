@@ -122,3 +122,9 @@ def random_img():
     n = random.choice([i for i in range(1, 2 + 1)])
     f = f'./img/{n}.jpg'
     return f
+
+
+def add_film(name, genres, date, duration):
+    genre = cur.execute("""SELECT * FROM genres
+                   WHERE num = ?""", (genres,)).fetchone()[0]
+    cur.execute('''INSERT INTO films VALUES (?, ?, ?, ?)''', (name, genre, date, duration))

@@ -3,7 +3,7 @@ import vk_api
 import requests
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 import random
-from mod import films_duration, films_year, films_genre, random_img
+from mod import films_duration, films_year, films_genre, random_img, add_film
 TOKEN = 'fa08b59a045c6c6f861933963d3a2aadf7efbd01bf3292d7a08b7405afd2d3e658796555ea5f641b4e3e4'
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 
@@ -12,7 +12,7 @@ vk = vk_api.VkApi(token=TOKEN)
 vk.get_api()
 
 keyboard = {
-    "one_time": True,
+    "one_time": False,
     "buttons": [
         [
             {
@@ -216,7 +216,7 @@ keyboard = json.dumps(keyboard, ensure_ascii=False).encode('utf-8')
 keyboard = str(keyboard.decode('utf-8'))
 
 keyboard2 = {
-    "one_time": True,
+    "one_time": False,
     "buttons": [
         [
             {
@@ -296,7 +296,7 @@ keyboard2 = json.dumps(keyboard2, ensure_ascii=False).encode('utf-8')
 keyboard2 = str(keyboard2.decode('utf-8'))
 
 keyboard3 = {
-    "one_time": True,
+    "one_time": False,
     "buttons": [
         [
             {
@@ -357,6 +357,268 @@ keyboard3 = {
 keyboard3 = json.dumps(keyboard3, ensure_ascii=False).encode('utf-8')
 keyboard3 = str(keyboard3.decode('utf-8'))
 
+finish_keyboard = {
+    "one_time": False,
+    "buttons": [
+        [
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "Показать другие фильмы"
+                },
+                "color": "primary"
+            },
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "Сделать новый запрос"
+                },
+                "color": "primary"
+            },
+        ],
+        [
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "Добавить свой фильм"
+                },
+                "color": "positive"
+            },
+        ]
+
+    ]
+}
+finish_keyboard = json.dumps(finish_keyboard, ensure_ascii=False).encode('utf-8')
+finish_keyboard = str(finish_keyboard.decode('utf-8'))
+
+start_keyboard = {
+    "one_time": False,
+    "buttons": [
+        [
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "Подобрать фильм"
+                },
+                "color": "primary"
+            },
+        ],
+        [
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "Добавить свой фильм"
+                },
+                "color": "positive"
+            },
+        ]
+    ]
+}
+start_keyboard = json.dumps(start_keyboard, ensure_ascii=False).encode('utf-8')
+start_keyboard = str(start_keyboard.decode('utf-8'))
+
+keyboard_g = {
+    "one_time": True,
+    "buttons": [
+        [
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "1"
+                },
+                "color": "primary"
+            },
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "2"
+                },
+                "color": "primary"
+            },
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "3"
+                },
+                "color": "primary"
+            },
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "4"
+                },
+                "color": "primary"
+            },
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "5"
+                },
+                "color": "primary"
+            },
+        ],
+        [
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "6"
+                },
+                "color": "primary"
+            },
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "7"
+                },
+                "color": "primary"
+            },
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "8"
+                },
+                "color": "primary"
+            },
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "9"
+                },
+                "color": "primary"
+            },
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "10"
+                },
+                "color": "primary"
+            },
+        ],
+        [
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "11"
+                },
+                "color": "primary"
+            },
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "12"
+                },
+                "color": "primary"
+            },
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "13"
+                },
+                "color": "primary"
+            },
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "14"
+                },
+                "color": "primary"
+            },
+        ],
+        [
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "15"
+                },
+                "color": "primary"
+            },
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "16"
+                },
+                "color": "primary"
+            },
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "17"
+                },
+                "color": "primary"
+            },
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "18"
+                },
+                "color": "primary"
+            },
+        ],
+        [
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "19"
+                },
+                "color": "primary"
+
+            },
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "20"
+                },
+                "color": "primary"
+            },
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "21"
+                },
+                "color": "primary"
+            },
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "22"
+                },
+                "color": "primary"
+            },
+        ]
+
+    ]
+}
+keyboard_g = json.dumps(keyboard_g, ensure_ascii=False).encode('utf-8')
+keyboard_g = str(keyboard_g.decode('utf-8'))
+
+
 longpoll = VkBotLongPoll(vk, 211179909)
 
 genres = [str(i) for i in range(0, 23)]
@@ -375,19 +637,59 @@ def img(user_id, films):
 
 
 def main():
-    g = True
+    g = False
     y = False
     d = False
+    ag = False
+    plas = False
+    f = True
+    name_f = False
+    genr = False
+    date = False
+    distans = False
+    dist = False
     while True:
         messages = vk.method("messages.getConversations", {"offset": 0, "count": 20, "filter": "unanswered"})
         if messages["count"] >= 1:
             id = messages["items"][0]["last_message"]["from_id"]
-            if g:
-                vk.method("messages.send", {"peer_id": id, "message": "Какой жанр вы делаете посмотреть", 'keyboard': keyboard,
-                                            "random_id": random.randint(1, 2147483647)},)
-            g = False
             body = messages["items"][0]["last_message"]["text"]
-            if body in genres and not g:
+            if f:
+                vk.method("messages.send",
+                          {"peer_id": id, "message": f"Что вы желаете сделать?", 'keyboard': start_keyboard,
+                           "random_id": random.randint(1, 2147483647)}, )
+                f = False
+            elif body == 'Подобрать фильм':
+                g = True
+                print('+')
+            elif body == 'Добавить свой фильм':
+                plas = True
+            if g:
+                vk.method("messages.send", {"peer_id": id, "message": '''Какой жанр вы делаете посмотреть?
+                Любой	0
+                комедия	1
+                драма	2
+                мелодрама	3
+                детектив	4
+                документальный	5
+                ужасы	6
+                музыка	7
+                фантастика	8
+                анимация	9
+                биография	10
+                боевик	11
+                приключения	12
+                война	13
+                семейный	14
+                триллер	15
+                фэнтези	16
+                вестерн	17
+                мистика	18
+                короткометражный	19
+                мюзикл	20
+                исторический	21
+                нуар	22''', 'keyboard': keyboard, "random_id": random.randint(1, 2147483647)},)
+                g = False
+            if body in genres and not g and not date and not distans:
                 genre = int(body)
                 if films_genre(genre)[0]:
                     vk.method("messages.send",
@@ -397,9 +699,9 @@ def main():
                 else:
                     img(id, f"{films_genre(genre)[1]}")
                     vk.method("messages.send",
-                              {"peer_id": id, "message": f"Finish",
-                               "random_id": random.randint(1, 2147483647)},)
-                    break
+                              {"peer_id": id, "message": f"Приятного просморта", 'keyboard': finish_keyboard,
+                               "random_id": random.randint(1, 2147483647)}, )
+                    ag = True
             elif body in years.keys() and y:
                 year = int(years[body])
                 if films_year(genre, year)[0]:
@@ -411,21 +713,103 @@ def main():
                 else:
                     img(id, f"{films_year(genre, year)[1]}")
                     vk.method("messages.send",
-                              {"peer_id": id, "message": f"Finish",
+                              {"peer_id": id, "message": f"Приятного просморта", 'keyboard': finish_keyboard,
                                "random_id": random.randint(1, 2147483647)}, )
-                    break
+                    ag = True
             elif body in durs.keys() and d:
                 duration = int(durs[body])
-                print(films_duration(genre, year, duration))
                 img(id, f"{films_duration(genre, year, duration)}")
                 vk.method("messages.send",
-                            {"peer_id": id, "message": f"Finish",
+                          {"peer_id": id, "message": f"Приятного просморта", 'keyboard': finish_keyboard,
                            "random_id": random.randint(1, 2147483647)}, )
-                break
-            else:
+                ag = True
+            elif ag:
+                if body == 'Показать другие фильмы':
+                    if not d and not y:
+                        img(id, f"{films_genre(genre)[1]}")
+                        vk.method("messages.send",
+                                  {"peer_id": id, "message": f"Приятного просморта", 'keyboard': finish_keyboard,
+                                   "random_id": random.randint(1, 2147483647)}, )
+                    elif not d:
+                        img(id, f"{films_year(genre, year)[1]}")
+                        vk.method("messages.send",
+                                  {"peer_id": id, "message": f"Приятного просморта", 'keyboard': finish_keyboard,
+                                   "random_id": random.randint(1, 2147483647)}, )
+                    elif not y:
+                        img(id, f"{films_duration(genre, year, duration)}")
+                        vk.method("messages.send",
+                                  {"peer_id": id, "message": f"Приятного просморта", 'keyboard': finish_keyboard,
+                                   "random_id": random.randint(1, 2147483647)}, )
+                elif body == 'Добавить свой фильм':
+                    plas = True
+                    y = False
+                    d = False
+                    ag = False
+                else:
+                    g = True
+                    y = False
+                    d = False
+                    ag = False
+            elif plas:
+                vk.method("messages.send", {"peer_id": id, "message": 'Введите название', "random_id": random.randint(1, 2147483647)},)
+                name_f = True
+                plas = False
+            elif name_f:
+                name = body
+                name_f = False
+                genr = True
+            elif genr:
+                vk.method("messages.send", {"peer_id": id, "message": '''Какой жанр у этого фильма?
+                комедия	1
+                драма	2
+                мелодрама	3
+                детектив	4
+                документальный	5
+                ужасы	6
+                музыка	7
+                фантастика	8
+                анимация	9
+                биография	10
+                боевик	11
+                приключения	12
+                война	13
+                семейный	14
+                триллер	15
+                фэнтези	16
+                вестерн	17
+                мистика	18
+                короткометражный	19
+                мюзикл	20
+                исторический	21
+                нуар	22''', 'keyboard': keyboard_g, "random_id": random.randint(1, 2147483647)},)
+                date = True
+                genr = False
+            elif body in genres and date:
+                gener = body
+                vk.method("messages.send", {"peer_id": id, "message": 'Введите год выхода фильма', "random_id": random.randint(1, 2147483647)},)
+                distans = True
+                date = False
+            elif body.isdigit() and int(body) >= 1900 and int(body) <= 2022 and distans:
+                datic = int(body)
+                vk.method("messages.send", {"peer_id": id, "message": 'Введите длительносить фильма (в минутах)', "random_id": random.randint(1, 2147483647)},)
+                dist = True
+            elif body.isdigit() and int(body) > 0 and dist:
+                longs = int(body)
+                add_film(name, gener, datic, longs)
                 vk.method("messages.send",
-                          {"peer_id": id, "message": "пожалуйста, укажите один из вариатов",   'keyboard': keyboard,
-                           "random_id": random.randint(1, 2147483647)},)
+                          {"peer_id": id, "message": "Ваш фильм успешно добавлен",
+                           "random_id": random.randint(1, 2147483647)}, )
+                g = False
+                y = False
+                d = False
+                ag = False
+                plas = False
+                f = True
+                name_f = False
+                genr = False
+                date = False
+                distans = False
+                dist = False
 
 
 if __name__ == '__main__':
