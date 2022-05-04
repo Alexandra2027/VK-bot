@@ -127,4 +127,5 @@ def random_img():
 def add_film(name, genres, date, duration):
     genre = cur.execute("""SELECT * FROM genres
                    WHERE num = ?""", (genres,)).fetchone()[0]
-    cur.execute('''INSERT INTO films VALUES (?, ?, ?, ?)''', (name, genre, date, duration))
+    cur.execute('''INSERT INTO films(title, genre, year, duration) VALUES (?, ?, ?, ?)''', (name, genre, date, duration))
+    con.commit()
