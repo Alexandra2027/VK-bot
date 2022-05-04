@@ -119,7 +119,7 @@ def films_duration(genres, date, duration):
 
 
 def random_img():
-    n = random.choice([i for i in range(1, 2 + 1)])
+    n = random.choice([i for i in range(1, 3 + 1)])
     f = f'./img/{n}.jpg'
     return f
 
