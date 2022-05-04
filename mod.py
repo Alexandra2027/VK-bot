@@ -1,12 +1,13 @@
 import sqlite3
 import random
-import os
 
 con = sqlite3.connect("films.sqlite")
 cur = con.cursor()
 
 
-def films_genre(genre):
+def films_genre(genres):
+    genre = cur.execute("""SELECT * FROM genres
+                   WHERE num = ?""", (genres,)).fetchone()[0]
     if genre != 0:
         result1 = cur.execute("""SELECT * FROM films
                    WHERE genre = ?""", (genre,)).fetchall()
@@ -30,7 +31,9 @@ def films_genre(genre):
         return (True, None)
 
 
-def films_year(genre, date):
+def films_year(genres, date):
+    genre = cur.execute("""SELECT * FROM genres
+                   WHERE num = ?""", (genres,)).fetchone()[0]
     if genre != 0 and date != 0:
         years = cur.execute("""SELECT * FROM years
                 WHERE id = ?""", (date,)).fetchone()
@@ -58,7 +61,9 @@ def films_year(genre, date):
         return (True, None)
 
 
-def films_duration(genre, date, duration):
+def films_duration(genres, date, duration):
+    genre = cur.execute("""SELECT * FROM genres
+                   WHERE num = ?""", (genres,)).fetchone()[0]
     if genre != 0:
         years = cur.execute("""SELECT * FROM years
                     WHERE id = ?""", (date,)).fetchone()

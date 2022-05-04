@@ -6,7 +6,8 @@ import random
 from mod import films_duration, films_year, films_genre, random_img
 TOKEN = 'fa08b59a045c6c6f861933963d3a2aadf7efbd01bf3292d7a08b7405afd2d3e658796555ea5f641b4e3e4'
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
-import random
+
+
 vk = vk_api.VkApi(token=TOKEN)
 vk.get_api()
 
@@ -171,7 +172,10 @@ keyboard = {
                     "label": "19"
                 },
                 "color": "primary"
+
             },
+        ],
+        [
             {
                 "action": {
                     "type": "text",
@@ -180,8 +184,6 @@ keyboard = {
                 },
                 "color": "primary"
             },
-        ],
-        [
             {
                 "action": {
                     "type": "text",
@@ -195,22 +197,6 @@ keyboard = {
                     "type": "text",
                     "payload": "{\"button\": \"2\"}",
                     "label": "22"
-                },
-                "color": "primary"
-            },
-            {
-                "action": {
-                    "type": "text",
-                    "payload": "{\"button\": \"2\"}",
-                    "label": "23"
-                },
-                "color": "primary"
-            },
-            {
-                "action": {
-                    "type": "text",
-                    "payload": "{\"button\": \"2\"}",
-                    "label": "24"
                 },
                 "color": "primary"
             },
@@ -373,7 +359,7 @@ keyboard3 = str(keyboard3.decode('utf-8'))
 
 longpoll = VkBotLongPoll(vk, 211179909)
 
-genres = [str(i) for i in range(0, 25)]
+genres = [str(i) for i in range(0, 23)]
 years = {'1900-1950': '1', '1951-1970': '2', '1971-1980': '3', '1981-1990': '4',
          '1991-2000': '5', '2001-2006': '6', '2007-2015': '7', 'Не имеет значения': '0'}
 durs = {'меньше часа': '1', '60-90 минут': '2', '91-150 минут': '3',
