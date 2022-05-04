@@ -1,5 +1,6 @@
 import sqlite3
 import random
+import os
 
 con = sqlite3.connect("films.sqlite")
 cur = con.cursor()
@@ -110,3 +111,9 @@ def films_duration(genre, date, duration):
             for j in range(len(result2)):
                 a += result2[j] + '\n'
             return a
+
+
+def random_img():
+    n = random.choice([i for i in range(1, 2 + 1)])
+    f = f'./img/{n}.jpg'
+    return f

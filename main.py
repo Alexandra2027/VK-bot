@@ -1,8 +1,9 @@
 import json
 import vk_api
+import requests
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 import random
-from mod import films_duration, films_year, films_genre
+from mod import films_duration, films_year, films_genre, random_img
 TOKEN = 'fa08b59a045c6c6f861933963d3a2aadf7efbd01bf3292d7a08b7405afd2d3e658796555ea5f641b4e3e4'
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 import random
@@ -379,6 +380,14 @@ durs = {'меньше часа': '1', '60-90 минут': '2', '91-150 мину�
         '151-300 минут': '4', 'более 5 часов': '5', 'Не имеет значения': '0'}
 
 
+def img(user_id, films):
+    a = vk.method("photos.getMessagesUploadServer")
+    b = requests.post(a['upload_url'], files={'photo': open(f'{random_img()}', 'rb')}).json()
+    c = vk.method('photos.saveMessagesPhoto', {'photo': b['photo'], 'server': b['server'], 'hash': b['hash']})[0]
+    vk.method("messages.send", {"peer_id": user_id, "message": f"{films}",
+                                "attachment": f'photo{c["owner_id"]}_{c["id"]}', "random_id": random.randint(1, 2147483647)},)
+
+
 def main():
     g = True
     y = False
@@ -400,9 +409,7 @@ def main():
                                "random_id": random.randint(1, 2147483647)},)
                     y = True
                 else:
-                    vk.method("messages.send",
-                              {"peer_id": id, "message": f"{films_genre(genre)[1]}",
-                               "random_id": random.randint(1, 2147483647)}, )
+                    img(id, f"{films_genre(genre)[1]}")
                     vk.method("messages.send",
                               {"peer_id": id, "message": f"Finish",
                                "random_id": random.randint(1, 2147483647)},)
@@ -416,9 +423,7 @@ def main():
                     d = True
                     y = False
                 else:
-                    vk.method("messages.send",
-                              {"peer_id": id, "message": f"{films_year(genre, year)[1]}",
-                               "random_id": random.randint(1, 2147483647)}, )
+                    img(id, f"{films_year(genre, year)[1]}")
                     vk.method("messages.send",
                               {"peer_id": id, "message": f"Finish",
                                "random_id": random.randint(1, 2147483647)}, )
@@ -426,9 +431,7 @@ def main():
             elif body in durs.keys() and d:
                 duration = int(durs[body])
                 print(films_duration(genre, year, duration))
-                vk.method("messages.send",
-                            {"peer_id": id, "message": f"{films_duration(genre, year, duration)}",
-                            "random_id": random.randint(1, 2147483647)}, )
+                img(id, f"{films_duration(genre, year, duration)}")
                 vk.method("messages.send",
                             {"peer_id": id, "message": f"Finish",
                            "random_id": random.randint(1, 2147483647)}, )
@@ -436,7 +439,7 @@ def main():
             else:
                 vk.method("messages.send",
                           {"peer_id": id, "message": "пожалуйста, укажите один из вариатов",   'keyboard': keyboard,
-                           "random_id": random.randint(1, 2147483647)}, )
+                           "random_id": random.randint(1, 2147483647)},)
 
 
 if __name__ == '__main__':
