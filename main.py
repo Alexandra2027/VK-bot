@@ -1,16 +1,16 @@
 import json
 import vk_api
 import requests
-from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 import random
 from mod import films_duration, films_year, films_genre, random_img, add_film
+from vk_api.bot_longpoll import VkBotLongPoll
 TOKEN = 'fa08b59a045c6c6f861933963d3a2aadf7efbd01bf3292d7a08b7405afd2d3e658796555ea5f641b4e3e4'
-from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 
 
 vk = vk_api.VkApi(token=TOKEN)
 vk.get_api()
 
+# Клавиатура жанров поиска
 keyboard = {
     "one_time": False,
     "buttons": [
@@ -215,6 +215,7 @@ keyboard = {
 keyboard = json.dumps(keyboard, ensure_ascii=False).encode('utf-8')
 keyboard = str(keyboard.decode('utf-8'))
 
+# Клавиатура годов
 keyboard2 = {
     "one_time": False,
     "buttons": [
@@ -267,7 +268,7 @@ keyboard2 = {
                 "action": {
                     "type": "text",
                     "payload": "{\"button\": \"2\"}",
-                    "label": "2001-2006"
+                    "label": "2001-2005"
                 },
                 "color": "primary"
             },
@@ -277,7 +278,25 @@ keyboard2 = {
                 "action": {
                     "type": "text",
                     "payload": "{\"button\": \"2\"}",
-                    "label": "2007-2015"
+                    "label": "2006-2010"
+                },
+                "color": "primary"
+            },
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "2011-2015"
+                },
+                "color": "primary"
+            },
+        ],
+        [
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "2016-2022"
                 },
                 "color": "primary"
             },
@@ -295,6 +314,7 @@ keyboard2 = {
 keyboard2 = json.dumps(keyboard2, ensure_ascii=False).encode('utf-8')
 keyboard2 = str(keyboard2.decode('utf-8'))
 
+# Клавиатура длительности
 keyboard3 = {
     "one_time": False,
     "buttons": [
@@ -339,10 +359,38 @@ keyboard3 = {
                 "action": {
                     "type": "text",
                     "payload": "{\"button\": \"2\"}",
-                    "label": "более 5 часов"
+                    "label": "Более 5 часов"
                 },
                 "color": "primary"
             },
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "Меньше 5 часов"
+                },
+                "color": "primary"
+            },
+        ],
+        [
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "Более 1.5 часов"
+                },
+                "color": "primary"
+            },
+            {
+                "action": {
+                    "type": "text",
+                    "payload": "{\"button\": \"2\"}",
+                    "label": "Меньше 2 часов"
+                },
+                "color": "primary"
+            },
+        ],
+        [
             {
                 "action": {
                     "type": "text",
@@ -352,11 +400,12 @@ keyboard3 = {
                 "color": "primary"
             },
         ]
-        ]
+    ]
 }
 keyboard3 = json.dumps(keyboard3, ensure_ascii=False).encode('utf-8')
 keyboard3 = str(keyboard3.decode('utf-8'))
 
+# Финальная клавиатура
 finish_keyboard = {
     "one_time": False,
     "buttons": [
@@ -394,6 +443,7 @@ finish_keyboard = {
 finish_keyboard = json.dumps(finish_keyboard, ensure_ascii=False).encode('utf-8')
 finish_keyboard = str(finish_keyboard.decode('utf-8'))
 
+# Стартовая клавиатура
 start_keyboard = {
     "one_time": False,
     "buttons": [
@@ -422,6 +472,7 @@ start_keyboard = {
 start_keyboard = json.dumps(start_keyboard, ensure_ascii=False).encode('utf-8')
 start_keyboard = str(start_keyboard.decode('utf-8'))
 
+# Клавиатура жанров (добавление)
 keyboard_g = {
     "one_time": True,
     "buttons": [
@@ -618,16 +669,17 @@ keyboard_g = {
 keyboard_g = json.dumps(keyboard_g, ensure_ascii=False).encode('utf-8')
 keyboard_g = str(keyboard_g.decode('utf-8'))
 
-
 longpoll = VkBotLongPoll(vk, 211179909)
 
 genres = [str(i) for i in range(0, 23)]
-years = {'1900-1950': '1', '1951-1970': '2', '1971-1980': '3', '1981-1990': '4',
-         '1991-2000': '5', '2001-2006': '6', '2007-2015': '7', 'Не имеет значения': '0'}
-durs = {'меньше часа': '1', '60-90 минут': '2', '91-150 минут': '3',
-        '151-300 минут': '4', 'более 5 часов': '5', 'Не имеет значения': '0'}
+years = {'1900-1950': '1', '1951-1970': '2', '1971-1980': '3', '1981-1990': '4', '1991-2000': '5',
+         '2001-2005': '6', '2006-2010': '7', '2011-2015': '8', '2016-2022': '9', 'Не имеет значения': '0'}
+durs = {'меньше часа': '1', '60-90 минут': '2', '91-150 минут': '3',  '151-300 минут': '4',
+        'Более 5 часов': '5', 'Меньше 2 часов': '6',  'Более 1.5 часов': '7', 'Меньше 5 часов': '8',
+        'Не имеет значения': '0'}
 
 
+# Функция отправки картинок
 def img(user_id, films):
     a = vk.method("photos.getMessagesUploadServer")
     b = requests.post(a['upload_url'], files={'photo': open(f'{random_img()}', 'rb')}).json()
@@ -637,17 +689,17 @@ def img(user_id, films):
 
 
 def main():
-    g = False
-    y = False
-    d = False
-    ag = False
-    plas = False
-    f = True
-    name_f = False
-    genr = False
-    date = False
-    distans = False
-    dist = False
+    g = False  # Флаг жанров 1
+    y = False  # Флаг годов 1
+    d = False  # Флаг длительности 1
+    ag = False  # Флаг повтора
+    plas = False  # Флаг добавления
+    f = True  # Флаг начала
+    name_f = False  # Флаг имени
+    genr = False  # Флаг жанров 2
+    date = False  # Флаг годов 2
+    distans = False  # Флаг длительности 2
+    dist = False  # Флаг добавления фильма
     while True:
         messages = vk.method("messages.getConversations", {"offset": 0, "count": 20, "filter": "unanswered"})
         if messages["count"] >= 1:
@@ -660,7 +712,6 @@ def main():
                 f = False
             elif body == 'Подобрать фильм':
                 g = True
-                print('+')
             elif body == 'Добавить свой фильм':
                 plas = True
             if g:
