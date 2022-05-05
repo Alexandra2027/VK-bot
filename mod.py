@@ -123,7 +123,7 @@ def films_duration(genres, date, duration):
 
 # Функция выбота рандомной картинки
 def random_img():
-    n = random.choice([i for i in range(1, 3 + 1)])
+    n = random.choice([i for i in range(1, 15 + 1)])
     f = f'./img/{n}.jpg'
     return f
 
